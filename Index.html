@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YE Interactive - Independent Game Studio</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter (sans-serif) and Orbitron (display/futuristic) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base styles */
+        body {
+            /* Fallback background */
+            background-color: #05000e; 
+            color: #e0f0ff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animated gradient background */
+        .animated-bg {
+            background: linear-gradient(-45deg, #05000e, #0a001a, #003366, #0052a3);
+            background-size: 400% 400%;
+            animation: gradient-flow 20s ease infinite;
+        }
+
+        /* Subtle grid/circuitry background overlay */
+        .grid-bg {
+            background-image:
+                linear-gradient(to right, rgba(0, 143, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 143, 255, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Gradient flow animation */
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Text glow effect */
+        .text-glow {
+            text-shadow: 0 0 8px rgba(0, 143, 255, 0.7), 0 0 20px rgba(0, 143, 255, 0.5);
+        }
+
+        /* Icon glow effect */
+        .icon-glow {
+            filter: drop-shadow(0 0 8px rgba(0, 143, 255, 0.8));
+            animation: pulse-glow 3s infinite alternate;
+        }
+        
+        @keyframes pulse-glow {
+            from { filter: drop-shadow(0 0 6px rgba(0, 143, 255, 0.6)); }
+            to { filter: drop-shadow(0 0 12px rgba(0, 143, 255, 1)); }
+        }
+
+        /* Glassmorphism card style */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Privacy policy scrollbar styling */
+        .policy-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .policy-scroll::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        .policy-scroll::-webkit-scrollbar-thumb {
+            background-color: #008fff;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+
+        /* Fade-in animation classes */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Orbitron', 'sans-serif'],
+                    },
+                    colors: {
+                        'electric-blue': {
+                            '50': '#f0f8ff',
+                            '100': '#e0f0ff',
+                            '200': '#c2e4ff',
+                            '300': '#94d5ff',
+                            '400': '#5fc2ff',
+                            '500': '#29a9ff',
+                            '600': '#008fff', // Main accent
+                            '700': '#007fff', // Main accent dark
+                            '800': '#0062cc',
+                            '900': '#0052a3',
+                            '950': '#003366', // Deep blue
+                        },
+                        'brand-dark': '#0a001a',
+                        'brand-bg': '#05000e',
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="animated-bg">
+
+    <!-- Header / Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-brand-bg/80 backdrop-blur-md border-b border-electric-blue-900/50">
+        <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#hero" class="font-display text-2xl font-bold text-white text-glow">
+                YE Interactive
+            </a>
+            
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#about" class="text-electric-blue-200 hover:text-white transition-colors">About</a>
+                <a href="#projects" class="text-electric-blue-200 hover:text-white transition-colors">Projects</a>
+                <a href="#privacy" class="text-electric-blue-200 hover:text-white transition-colors">Privacy Policy</a>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button id="menu-btn" class="md:hidden z-50">
+                <svg id="menu-open-icon" class="w-6 h-6 text-white" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+                <svg id="menu-close-icon" class="w-6 h-6 text-white hidden" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                   <path d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </nav>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-0 left-0 w-full h-screen bg-brand-bg/95 backdrop-blur-lg flex flex-col justify-center items-center space-y-8 text-2xl">
+            <a href="#about" class="text-electric-blue-200 hover:text-white transition-colors">About</a>
+            <a href="#projects" class="text-electric-blue-200 hover:text-white transition-colors">Projects</a>
+            <a href="#privacy" class="text-electric-blue-200 hover:text-white transition-colors">Privacy Policy</a>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center px-6 relative grid-bg pt-20">
+            <!-- Main Logo -->
+            <h1 class="font-display text-5xl sm:text-7xl lg:text-8xl font-black text-white text-glow">
+                YE Interactive
+            </h1>
+            
+            <!-- Tagline -->
+            <p class="mt-6 text-xl sm:text-2xl font-light text-white max-w-3xl">
+                Independent mobile game studio creating fast, stylish, and competitive experiences.
+            </p>
+            
+            <!-- Subtext -->
+            <p class="mt-3 text-lg sm:text-xl text-electric-blue-200 max-w-2xl">
+                Crafting interactive worlds with precision and imagination.
+            </p>
+            
+            <!-- CTA Buttons -->
+            <div class="mt-10 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
+                <a href="#projects" class="px-8 py-3 bg-electric-blue-600 text-white text-lg font-medium rounded-lg shadow-lg shadow-electric-blue-600/30 hover:bg-electric-blue-500 hover:shadow-electric-blue-500/50 transition-all duration-300 transform hover:scale-105">
+                    Our Projects
+                </a>
+                <a href="#privacy" class="px-8 py-3 bg-transparent text-electric-blue-200 text-lg font-medium rounded-lg border-2 border-electric-blue-500 hover:bg-electric-blue-500/20 hover:text-white transition-all duration-300">
+                    Privacy Policy
+                </a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-24 sm:py-32 fade-in-section">
+            <div class="max-w-4xl mx-auto px-6 text-center">
+                <!-- Glowing Gamepad Icon -->
+                <svg class="w-16 h-16 mx-auto mb-8 text-electric-blue-500 icon-glow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-1.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25A2.25 2.25 0 0 1 5.25 3h13.5A2.25 2.25 0 0 1 21 5.25Zm-18 0h1.5v1.5H3V5.25Zm1.5 0h1.5v1.5H4.5V5.25Zm1.5 0h1.5v1.5H6V5.25Zm1.5 0h1.5v1.5H7.5V5.25Zm10.5 0h1.5v1.5H18V5.25Zm-1.5 0h1.5v1.5H16.5V5.25Z" />
+                </svg>
+                
+                <h2 class="text-3xl sm:text-4xl font-display font-bold text-white mb-6">
+                    Who We Are
+                </h2>
+                <p class="text-lg sm:text-xl text-electric-blue-100 max-w-3xl mx-auto leading-relaxed">
+                    YE Interactive is a small, independent team focused on creating high-quality mobile games. We believe in gameplay that feels smooth, responsive, and rewarding — built with passion, not noise.
+                </p>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-24 sm:py-32 bg-brand-dark/50 border-y border-electric-blue-900/50 fade-in-section">
+            <div class="max-w-7xl mx-auto px-6">
+                <h2 class="text-3xl sm:text-4xl font-display font-bold text-white text-center mb-16">
+                    Our Projects
+                </h2>
+                
+                <!-- Featured Project: Oops Run -->
+                <div class="glass-card rounded-2xl overflow-hidden shadow-2xl shadow-electric-blue-950/30 flex flex-col md:flex-row">
+                    <!-- Game Thumbnail -->
+                    <div class="md:w-1/2">
+                        <img src="https://placehold.co/600x400/003366/e0f0ff?text=Oops+Run&font=orbitron" 
+                             alt="Oops Run Game Thumbnail"
+                             class="w-full h-full object-cover">
+                    </div>
+                    
+                    <!-- Game Details -->
+                    <div class="md:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
+                        <h3 class="font-display text-3xl font-bold text-white mb-4">Oops Run</h3>
+                        <p class="text-lg text-electric-blue-100 mb-8 leading-relaxed">
+                            A fast-paced endless runner where timing and precision define survival. 
+                            Built with Unity, featuring dynamic turns and a crisp icy aesthetic.
+                        </p>
+                        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                            <button class="px-6 py-3 bg-electric-blue-600 text-white font-medium rounded-lg shadow-lg shadow-electric-blue-600/30 hover:bg-electric-blue-500 transition-all duration-300 transform hover:scale-105" disabled>
+                                Watch Demo
+                            </button>
+                            <button class="px-6 py-3 bg-gray-700 text-gray-400 font-medium rounded-lg cursor-not-allowed" disabled>
+                                Download (Coming Soon)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Future Projects Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+                    <!-- Placeholder Card 1 -->
+                    <div class="glass-card rounded-2xl p-8 text-center h-48 flex justify-center items-center">
+                        <h4 class="font-display text-2xl text-electric-blue-300">Future Project</h4>
+                    </div>
+                    <!-- Placeholder Card 2 -->
+                    <div class="glass-card rounded-2xl p-8 text-center h-48 flex justify-center items-center">
+                        <h4 class="font-display text-2xl text-electric-blue-300">Future Project</h4>
+                    </div>
+                    <!-- Placeholder Card 3 -->
+                    <div class="glass-card rounded-2xl p-8 text-center h-48 flex justify-center items-center">
+                        <h4 class="font-display text-2xl text-electric-blue-300">Future Project</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Privacy Policy Section -->
+        <section id="privacy" class="py-24 sm:py-32 fade-in-section">
+            <div class="max-w-4xl mx-auto px-6">
+                <h2 class="text-3xl sm:text-4xl font-display font-bold text-white text-center mb-16">
+                    Privacy Policy
+                </h2>
+                
+                <!-- Scrollable Policy Container -->
+                <div class="max-h-96 overflow-y-auto policy-scroll bg-white/95 text-gray-800 rounded-lg shadow-2xl p-6 sm:p-10 space-y-6">
+                    <p><strong>Privacy Policy</strong></p>
+                    <p>Oops Run mobile game is developed by YE Interactive (“we”, “our”, or “us”). This page is used to inform visitors regarding our policies with the collection, use, and disclosure of personal information for anyone using our Service.</p>
+
+                    <h3 class="text-xl font-bold text-gray-900">1. Information Collection</h3>
+                    <p>Oops Run does not directly collect any personally identifiable information. However, third-party advertising and analytics providers integrated in the game may collect certain technical and usage data, such as device identifiers, advertising IDs, and usage statistics.</p>
+
+                    <h3 class="text-xl font-bold text-gray-900">2. Use of Information</h3>
+                    <p>The collected data may be used for the following purposes:</p>
+                    <ul class="list-disc list-inside space-y-2 pl-4">
+                        <li>Displaying and optimizing advertisements</li>
+                        <li>Analyzing game performance (e.g., via Firebase Analytics)</li>
+                        <li>Detecting errors and improving user experience</li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold text-gray-900">3. Third-Party Services</h3>
+                    <p>Oops Run may use the following third-party services for advertising and analytics:</p>
+                    <ul class="list-disc list-inside space-y-2 pl-4">
+                        <li>Google (AdMob & Firebase): <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="text-electric-blue-700 hover:underline">https://policies.google.com/privacy</a></li>
+                        <li>AppLovin: <a href="https://www.applovin.com/privacy/" target="_blank" rel="noopener noreferrer" class="text-electric-blue-700 hover:underline">https://www.applovin.com/privacy/</a></li>
+                        <li>Unity Ads & ironSource: <a href="https://unity.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" class="text-electric-blue-700 hover:underline">https://unity.com/legal/privacy-policy</a></li>
+                        <li>Mintegral: <a href="https://www.mintegral.com/en/privacy" target="_blank" rel="noopener noreferrer" class="text-electric-blue-700 hover:underline">https://www.mintegral.com/en/privacy</a></li>
+                        <li>Meta Audience Network: <a href="https://www.facebook.com/about/privacy/" target="_blank" rel="noopener noreferrer" class="text-electric-blue-700 hover:underline">https://www.facebook.com/about/privacy/</a></li>
+                        <li>Pangle: <a href="https://www.pangleglobal.com/privacy" target="_blank" rel="noopener noreferrer" class="text-electric-blue-700 hover:underline">https://www.pangleglobal.com/privacy</a></li>
+                        <li>Liftoff: <a href="https://liftoff.io/privacy-policy/" target="_blank" rel="noopener noreferrer" class="text-electric-blue-700 hover:underline">https://liftoff.io/privacy-policy/</a></li>
+                    </ul>
+                    <p>These third-party services operate under their own privacy policies. We encourage you to review them carefully.</p>
+
+                    <h3 class="text-xl font-bold text-gray-900">4. Data Storage and Security</h3>
+                    <p>We do not store any personal data ourselves. Any data collected by third-party services is stored and secured under their own privacy and security practices. YE Interactive does not have direct access to this data.</p>
+
+                    <h3 class="text-xl font-bold text-gray-900">5. Your Choices and Opt-Out</h3>
+                    <p>You can control or opt-out of personalized advertising in the game by adjusting your mobile device's settings:</p>
+                    <ul class="list-disc list-inside space-y-2 pl-4">
+                        <li><strong>On iOS:</strong> Go to Settings > Privacy & Security > Advertising and turn on "Limit Ad Tracking."</li>
+                        <li><strong>On Android:</strong> Go to Settings > Google > Ads and tap "Opt-out of Ads Personalization" or "Delete Advertising ID."</li>
+                    </ul>
+                    <p>For data collected by our third-party partners (listed in Section 3), please refer to their respective privacy policies (linked above) to understand and exercise your rights regarding data collection and usage.</p>
+
+                    <h3 class="text-xl font-bold text-gray-900">6. Children’s Privacy</h3>
+                    <p>These Services do not address anyone under the age of 13. We do not knowingly collect personally identifiable information from children under 13. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact us. If we discover that a child under 13 has provided us with personal information, we take steps to delete this information from our servers immediately.</p>
+
+                    <h3 class="text-xl font-bold text-gray-900">7. Changes to This Privacy Policy</h3>
+                    <p>We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
+
+                    <h3 class="text-xl font-bold text-gray-900">8. Contact Us</h3>
+                    <p>If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us:</p>
+                    <p>
+                        <strong>Developer:</strong> YE Interactive<br>
+                        <strong>Email:</strong> <a href="mailto:yeinteractive@gmail.com" class="text-electric-blue-700 hover:underline">yeinteractive@gmail.com</a>
+                    </p>
+                    
+                    <p class="pt-4 border-t border-gray-300 text-sm text-gray-600">© 2025 YE Interactive. All rights reserved.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-dark py-12 mt-16 border-t border-electric-blue-900/50">
+        <div class="max-w-7xl mx-auto px-6 text-center text-gray-400">
+            <!-- Social Icons -->
+            <div class="flex justify-center space-x-6 mb-6">
+                <!-- Twitter/X -->
+                <a href="#" class="text-gray-500 hover:text-electric-blue-400 transition-colors">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                </a>
+                <!-- Discord -->
+                <a href="#" class="text-gray-500 hover:text-electric-blue-400 transition-colors">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.54 0c1.356 0 2.46 1.104 2.46 2.472v19.056c0 1.368-1.104 2.472-2.46 2.472H4.46C3.104 24 2 22.896 2 21.528V2.472C2 1.104 3.104 0 4.46 0h15.08zM9.48 5.532h-.036c-.576 0-1.044.504-1.044 1.128v.036c0 .624.468 1.128 1.044 1.128h.036c.576 0 1.044-.504 1.044-1.128v-.036c0-.624-.468-1.128-1.044-1.128zm4.992 0h-.036c-.576 0-1.044.504-1.044 1.128v.036c0 .624.468 1.128 1.044 1.128h.036c.576 0 1.044-.504 1.044-1.128v-.036c0-.624-.468-1.128-1.044-1.128zM19.992 16.008c-.6 0-1.164-.396-1.392-.936-2.208 1.008-4.644 1.008-6.852 0-.228.54-1.008.936-1.608.936-1.08 0-1.956-1.044-1.956-2.316 0-1.26.876-2.304 1.956-2.304.948 0 1.764.792 1.884 1.836 2.208-.552 4.284-.552 6.492 0 .12-.996.936-1.836 1.884-1.836 1.08 0 1.956 1.044 1.956 2.304 0 1.272-.876 2.316-1.956 2.316z"></path></svg>
+                </a>
+                <!-- YouTube -->
+                <a href="#" class="text-gray-500 hover:text-electric-blue-400 transition-colors">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.582 7.64c-.218-1.616-1.52-2.918-3.136-3.136C16.51 4.25 12 4.25 12 4.25s-4.51 0-6.446.254c-1.616.218-2.918 1.52-3.136 3.136C2.25 9.576 2.25 12 2.25 12s0 2.424.254 4.36c.218 1.616 1.52 2.918 3.136 3.136C7.49 19.75 12 19.75 12 19.75s4.51 0 6.446-.254c1.616-.218 2.918-1.52 3.136-3.136C21.75 14.424 21.75 12 21.75 12s0-2.424-.168-4.36zM9.75 14.85V9.15l4.875 2.85-4.875 2.85z"></path></svg>
+                </a>
+            </div>
+            
+            <!-- Email -->
+            <a href="mailto:yeinteractive@gmail.com" class="block mb-4 text-gray-400 hover:text-electric-blue-300 transition-colors">
+                yeinteractive@gmail.com
+            </a>
+            
+            <!-- Copyright -->
+            <p class="text-sm">
+                &copy; 2025 YE Interactive — All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Mobile Menu Toggle ---
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const openIcon = document.getElementById('menu-open-icon');
+            const closeIcon = document.getElementById('menu-close-icon');
+
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                openIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
+                // Prevent scrolling when menu is open
+                document.body.style.overflow = mobileMenu.classList.contains('hidden') ? 'auto' : 'hidden';
+            });
+            
+            // Close mobile menu when a link is clicked
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    openIcon.classList.remove('hidden');
+                    closeIcon.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                });
+            });
+
+            // --- Fade-in on Scroll Animation ---
+            const sections = document.querySelectorAll('.fade-in-section');
+            
+            const observerOptions = {
+                root: null, // relative to the viewport
+                rootMargin: '0px',
+                threshold: 0.1 // 10% of the element must be visible
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Animate only once
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+        });
+    </script>
+</body>
+</html>
